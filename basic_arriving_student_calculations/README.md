@@ -24,7 +24,8 @@ I have now completed a similar calculation using the same piece of code (invoked
 2. The use of data on modelled percentage of people in a region testing positive as prevalence may be unsuitable for a number of reasons: the measure may just not be suitable for prevalence, it is not specific to the age group, there is significant uncertainty, is at a broad geographic scale, etc. 
 3. The calculation is very simple.  There will be a better way to do this that captures uncertainty more robustly.
 4. I’ve not included any consideration of symptomatic infections moving or not moving differently to others.  I’ve not explicitly considered exposed vs asymptomatic vs infectious groups, etc.  
-5. I have only included students domiciled in English regions.
+5. The antibody prevalences are from a moment in time, and I have not modelled any further accumulation not any decay of antibodies. 
+6. I have only included students domiciled in English regions.
 
 I want to especially repeat one of those: recently, news reports have suggested that prevalence is highest in the UK in young people.  I have used estimates from the general population.
 
