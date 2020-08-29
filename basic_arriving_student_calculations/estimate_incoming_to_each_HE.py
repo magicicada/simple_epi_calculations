@@ -1,9 +1,9 @@
 import pandas as pd
+import sys
 
-
-def read_flow_table():
+def read_flow_table(filename):
     he_col = "HE provider "
-    flow_df = pd.read_csv("150091_Data_header_trimmed.csv")
+    flow_df = pd.read_csv(filename)
     flow_df = flow_df[
         [
             he_col,
@@ -26,16 +26,16 @@ def read_flow_table():
     return flow_df, HE_providers
 
 
-def read_pos_table():
-    perc_pos_df = pd.read_csv("august_6_perc_testing_pos.csv")
-    perc_pos_df.columns = ["Region", "perc_pos", "lower", "upper"]
-    perc_pos_df["perc_pos"] = perc_pos_df["perc_pos"].astype(float)
+def read_pos_table(filename):
+    perc_pos_df = pd.read_csv(filename)
+    perc_pos_df.columns = ["Region", "estimate", "lower", "upper"]
+    perc_pos_df["estimate"] = perc_pos_df["estimate"].astype(float)
     regions = list(perc_pos_df["Region"])
     return perc_pos_df, regions
 
 
 def generate_number_incoming(
-    flow_df, perc_pos_df, regions, HE_providers, col_of_pos="perc_pos"
+    flow_df, perc_pos_df, regions, HE_providers, col_of_pos="estimate", result_name = ' No Description Given'
 ):
     flow_df = flow_df.merge(
         perc_pos_df, how="outer", left_on="index", right_on="Region"
@@ -43,7 +43,7 @@ def generate_number_incoming(
 
     incoming_cols = []
     for he_provider in HE_providers:
-        thisName = he_provider + " Est. Infectious Incoming"
+        thisName = he_provider + result_name
         incoming_cols.append(thisName)
         flow_df[thisName] = flow_df[he_provider] * flow_df[col_of_pos] / 100
 
@@ -51,21 +51,25 @@ def generate_number_incoming(
     flow_df = flow_df[incoming_cols]
 
     flow_df = flow_df.T
-
+    # print(flow_df)
     flow_df["Total Regions"] = flow_df.loc[:, regions].sum(axis=1)
     return flow_df
 
 
 def main():
-
-    for col in ["perc_pos", "lower", "upper"]:
-        perc_pos_df, regions = read_pos_table()
-        flow_df, he_provers = read_flow_table()
+    flowsFile = sys.argv[1]
+    prevFile = sys.argv[2]
+    outputFile = sys.argv[3]
+    add_to_results = sys.argv[4]
+    
+    for col in ["estimate", "lower", "upper"]:
+        perc_pos_df, regions = read_pos_table(prevFile)
+        flow_df, he_provers = read_flow_table(flowsFile)
         flow_df = generate_number_incoming(
-            flow_df, perc_pos_df, regions, he_provers, col_of_pos=col
+            flow_df, perc_pos_df, regions, he_provers, col_of_pos=col, result_name=add_to_results
         )
         flow_df.to_csv(
-            "estimate_number_incoming_infected_from_regions_using_" + col + ".csv"
+            outputFile + col + ".csv"
         )
 
 
