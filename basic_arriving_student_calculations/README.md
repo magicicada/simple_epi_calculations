@@ -2,7 +2,7 @@ Summary of calculation:
 
 In order for higher education providers to be well-prepared for the imminent return of students, as well as for a general understanding of how potentially-infectious students might flow around the country at the beginning of the autumn semester, I thought it might be valuable to have even a rough estimate of the number of COVID-infected students that might be returning higher education providers.  Using data on student domiciles by HE provider and an estimate of prevalence by English region, I have performed a simple calculation for students domiciled in English regions. 
 
-I can be contacted via GitHub message, or by email at jessica.enright@
+I can be contacted via GitHub message, or by email at jessica.enright@glasgow.ac.uk
 
 **Data sources:**
 
