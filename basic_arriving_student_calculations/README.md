@@ -12,7 +12,7 @@ I can be contacted via GitHub message, or by email at jessica.enright@glasgow.ac
 
 **Calculation:**
 The calculation is *extremely* simple - I estimate the number of incoming infected students by multiplying the number of incoming students to a HE provider from a region by the percentage of people with COVID from that region.  I have repeated this using the lower and upper confidence limits from Data Source 2.  
-- results using the central estimate are in https://github.com/magicicada/simple_epi_calculations/blob/main/basic_arriving_student_calculations/data/estimate_number_incoming_infected_from_regions_using_percentage_pos.csv
+- results using the central estimate are in [estimate_number_incoming_infected_from_regions_using_percentage_pos.csv](https://github.com/magicicada/simple_epi_calculations/blob/main/basic_arriving_student_calculations/data/estimate_number_incoming_infected_from_regions_using_percentage_pos.csv)
 - results using the lower confidence limit are in https://github.com/magicicada/simple_epi_calculations/blob/main/basic_arriving_student_calculations/data/estimate_number_incoming_infected_from_regions_using_lower.csv
 - results using the upper confidence limit are in  https://github.com/magicicada/simple_epi_calculations/blob/main/basic_arriving_student_calculations/data/estimate_number_incoming_infected_from_regions_using_lower.csv
 
