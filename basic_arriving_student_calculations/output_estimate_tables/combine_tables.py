@@ -27,6 +27,7 @@ central = central[['Unnamed: 0', 'North East', 'North East from lower', 'North E
                    'London', 'London from lower', 'London from upper',
                    'South East', 'South East from lower', 'South East from upper',
                    'South West', 'South West from lower', 'South West from upper',
+                   'Wales', 'Wales from lower', 'Wales from upper',
                    'Total Regions', 'Total Regions from lower', 'Total Regions from upper'
                 ]]
 
