@@ -16,7 +16,8 @@ def read_flow_table(filename):
             "London",
             "South East",
             "South West",
-            "Wales"
+            "Wales",
+            "Scotland"
         ]
     ]
 
