@@ -1,6 +1,6 @@
 Summary of calculation:
 
-In order for higher education providers to be well-prepared for the imminent return of students, as well as for a general understanding of how potentially-infectious students might flow around the country at the beginning of the autumn semester, I thought it might be valuable to have even a rough estimate of the number of COVID-infected students that might be returning higher education providers.  Using data on student domiciles by HE provider and an estimate of prevalence by English region plus Wales, I have performed a simple calculation for students domiciled in English regions or in Wales. 
+In order for higher education providers to be well-prepared for the imminent return of students, as well as for a general understanding of how potentially-infectious students might flow around the country at the beginning of the autumn semester, I thought it might be valuable to have even a rough estimate of the number of COVID-infected students that might be returning higher education providers.  Using data on student domiciles by HE provider and an estimate of prevalence by English region plus Wales, I have performed a simple calculation for students domiciled in English regions or in Wales.  I have now also included students domiciled in Scotland, though please note that this uses a less suitable source of prevalence information.
 
 I can be contacted via GitHub message, or by email at jessica.enright@glasgow.ac.uk
 
@@ -27,8 +27,8 @@ I have now completed a similar calculation using the same piece of code (invoked
 2. The use of data on modelled percentage of people in a region testing positive as prevalence may be unsuitable for a number of reasons: the measure may just not be suitable for prevalence, it is not specific to the age group, there is significant uncertainty, is at a broad geographic scale, etc. 
 3. The calculation is very simple.  There will be a better way to do this that captures uncertainty more robustly.
 4. I’ve not included any consideration of symptomatic infections moving or not moving differently to others.  I’ve not explicitly considered exposed vs asymptomatic vs infectious groups, etc.  
-5. The antibody prevalences are from a moment in time, and I have not modelled any further accumulation not any decay of antibodies. 
-6. I have only included students domiciled in English regions, or in Wales.
+5. The antibody prevalences are from a moment in time, and I have not modelled any further accumulation nor any decay of antibodies. 
+6. I have only included students domiciled in English regions, or in Wales or Scotland.
 
 I want to especially repeat one of those: recently, news reports have suggested that prevalence is highest in the UK in young people.  I have used estimates from the general population.
 
