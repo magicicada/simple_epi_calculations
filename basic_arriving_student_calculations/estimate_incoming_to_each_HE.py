@@ -53,7 +53,7 @@ def generate_number_incoming(
     flow_df = flow_df[incoming_cols]
 
     flow_df = flow_df.T
-    # print(flow_df)
+    print(flow_df)
     flow_df["Total Regions"] = flow_df.loc[:, regions].sum(axis=1)
     return flow_df
 
