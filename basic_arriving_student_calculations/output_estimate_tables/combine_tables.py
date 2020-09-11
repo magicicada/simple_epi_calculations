@@ -19,7 +19,8 @@ lower = lower.merge(upper, how='outer', left_on = 'Unnamed: 0', right_on ='Unnam
 
 central = central.merge(lower, how='outer', left_on = 'Unnamed: 0', right_on ='Unnamed: 0')
 
-central = central[['Unnamed: 0', 'North East', 'North East from lower', 'North East from upper', 'North West', 'North West from lower', 'North West from upper',
+central = central[['Unnamed: 0', 'Total Regions', 'Total Regions from lower', 'Total Regions from upper',
+                   'North East', 'North East from lower', 'North East from upper', 'North West', 'North West from lower', 'North West from upper',
                    'Yorkshire and The Humber', 'Yorkshire and The Humber from lower', 'Yorkshire and The Humber from upper',
                    'East Midlands', 'East Midlands from lower', 'East Midlands from upper',
                    'West Midlands', 'West Midlands from lower', 'West Midlands from upper',
@@ -28,8 +29,7 @@ central = central[['Unnamed: 0', 'North East', 'North East from lower', 'North E
                    'South East', 'South East from lower', 'South East from upper',
                    'South West', 'South West from lower', 'South West from upper',
                    'Wales', 'Wales from lower', 'Wales from upper',
-                   'Scotland', 'Scotland from lower', 'Scotland from upper',
-                   'Total Regions', 'Total Regions from lower', 'Total Regions from upper'
+                   'Scotland', 'Scotland from lower', 'Scotland from upper'
                 ]]
 
 central.to_csv('estimate_number_incoming_infected_from_regions_combined.csv')
@@ -54,7 +54,8 @@ lower = lower.merge(upper, how='outer', left_on = 'Unnamed: 0', right_on ='Unnam
 
 central = central.merge(lower, how='outer', left_on = 'Unnamed: 0', right_on ='Unnamed: 0')
 
-central = central[['Unnamed: 0', 'North East', 'North East from lower', 'North East from upper', 'North West', 'North West from lower', 'North West from upper',
+central = central[['Unnamed: 0', 'Total Regions', 'Total Regions from lower', 'Total Regions from upper',
+                   'North East', 'North East from lower', 'North East from upper', 'North West', 'North West from lower', 'North West from upper',
                    'Yorkshire and The Humber', 'Yorkshire and The Humber from lower', 'Yorkshire and The Humber from upper',
                    'East Midlands', 'East Midlands from lower', 'East Midlands from upper',
                    'West Midlands', 'West Midlands from lower', 'West Midlands from upper',
@@ -63,8 +64,7 @@ central = central[['Unnamed: 0', 'North East', 'North East from lower', 'North E
                    'South East', 'South East from lower', 'South East from upper',
                    'South West', 'South West from lower', 'South West from upper',
                    'Wales', 'Wales from lower', 'Wales from upper',
-                   'Scotland', 'Scotland from lower', 'Scotland from upper',
-                   'Total Regions', 'Total Regions from lower', 'Total Regions from upper'
+                   'Scotland', 'Scotland from lower', 'Scotland from upper'
                 ]]
 
 central.to_csv('estimate_number_incoming_infected_from_regions_age_adjusted_combined.csv')
