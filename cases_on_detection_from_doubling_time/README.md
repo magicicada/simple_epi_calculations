@@ -35,7 +35,7 @@ https://github.com/magicicada/simple_epi_calculations/tree/master/cases_on_detec
 
 As an example of one of these individual subplots, here is an example image for doubling time 4, delay 4, non-testing fraction 0.75:
 
-![A plot of probability distribution of number of cases on detection day](/generating_static_figures/sample_cases_figure.png)
+![A plot of probability distribution of number of cases on detection day](https://github.com/magicicada/simple_epi_calculations/blob/master/cases_on_detection_from_doubling_time/generating_static_figures/sample_cases_figure.png)
 
 The blue line shows the probability of different numbers of cases on the day of detection. The red vertical line indicates the expected number, repeated in the red text.  
  
