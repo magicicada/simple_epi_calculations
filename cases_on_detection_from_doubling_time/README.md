@@ -18,7 +18,11 @@ Given the doubling time specified I calculate the number of new cases on each da
 
 ## Running the notebook
 
-If you can run a Jupyter notebook locally, you're certainly welcome to - or feel free to use the code without the notebook to run your own things.  If you'd just like to run the notebook and change the sliders online, you could try using: https://mybinder.org/v2/gh/magicicada/simple_epi_calculations/2266493d023dfd1c7e0c2499febbf8ae28128bc0?filepath=cases_on_detection_from_doubling_time%2Fexpected_cases_before_detection.ipynb
+If you can run a Jupyter notebook locally, you're certainly welcome to - or feel free to use the code without the notebook to run your own things.  If you'd just like to run the notebook and change the sliders online, you could try using: 
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/magicicada/simple_epi_calculations/master)
+
+And navigate to the appropriate notebook
 
 If the notebook is inconvenient for you and you'd like output as a table or some custom things run, I'm happy to help if I can - contact me at Jessica.Enright@glasgow.ac.uk
 
