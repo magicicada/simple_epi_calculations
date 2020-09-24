@@ -46,6 +46,12 @@ def expected_number_cases(doubling_time, prob_asympt, post_infection_delay = 2, 
   day_shut = day_of_shutdown(cases, thresh, post_infection_delay)
   return cases[day_shut]
 
+def cumulative(list_name):
+  cum_list = []
+  for i in range(len(list_name)):
+    cum_list.append(sum(list_name[:i]))
+  return cum_list
+
 
 tail_thresh = 0.0001
 max_double=15
@@ -66,13 +72,15 @@ for fraction_non_testing in [0.25, 0.5, 0.75]:
       first_day_dist = gen_prob_first_sympt_infected_on_day(cases, fraction_non_testing)
    
       expect_cases,prob = dist_num_cases_on_detection(cases, first_day_dist, post_infection_delay)
-      expectation = sum([a*b for a,b in zip(expect_cases,prob)])
+      expect_cases,prob = threshold_out_tail(expect_cases,prob,tail_thresh)
+      cum_expect_cases = cumulative(expect_cases) 
+      expectation = sum([a*b for a,b in zip(cum_expect_cases,prob)])
       
       # print('Expected number of cases on day of detection ' + str(round(expectation, 2)))
    
       axs[i,j].plot(expect_cases, prob)
-      axs[i,j].set_ylim(0, 0.75)
-      axs[i,j].set_xlim(0, 30)
+      axs[i,j].set_ylim(0, 1.0)
+      axs[i,j].set_xlim(0, 50)
       #  plt.xlim(1,100)
       #  print(expect_cases)
       #  print(prob)
@@ -86,4 +94,3 @@ for fraction_non_testing in [0.25, 0.5, 0.75]:
       axs[i,j].axvline(x=expectation, color='red')
       axs[i, j].set_title('Doubling time '+ str(doubling_time) + ' , Delay of ' + str(post_infection_delay))
   plt.savefig('cases_before_detection_non_testing_'+ str(fraction_non_testing) + '.png' )
-

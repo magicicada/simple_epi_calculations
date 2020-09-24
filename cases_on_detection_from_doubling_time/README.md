@@ -21,3 +21,17 @@ Given the doubling time specified I calculate the number of new cases on each da
 If you can run a Jupyter notebook locally, you're certainly welcome to - or feel free to use the code without the notebook to run your own things.  If you'd just like to run the notebook and change the sliders online, you could try using: https://mybinder.org/v2/gh/magicicada/simple_epi_calculations/2266493d023dfd1c7e0c2499febbf8ae28128bc0?filepath=cases_on_detection_from_doubling_time%2Fexpected_cases_before_detection.ipynb
 
 If the notebook is inconvenient for you and you'd like output as a table or some custom things run, I'm happy to help if I can - contact me at Jessica.Enright@glasgow.ac.uk
+
+
+## Static Figures
+
+In case you want a quick look, I have generated some large grids of figures for non-testing fractions of 0.25, 0.5, 0.75 over a small range of delays and doubling times.  These, along with the code that generated them, are available in:
+
+https://github.com/magicicada/simple_epi_calculations/tree/master/cases_on_detection_from_doubling_time/generating_static_figures
+
+As an example of one of these individual subplots, here is an example image for doubling time 4, delay 4, non-testing fraction 0.75:
+
+![A plot of probability distribution of number of cases on detection day](/generating_static_figures/sample_cases_figure.png)
+
+The blue line shows the probability of different numbers of cases on the day of detection. The red vertical line indicates the expected number, repeated in the red text.  
+ 
