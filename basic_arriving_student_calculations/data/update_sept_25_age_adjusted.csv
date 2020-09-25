@@ -1,0 +1,12 @@
+﻿,% testing positive for COVID-19,Lower confidence limit,Upper confidence limit
+North West,0.936,0.3,2.2968
+Yorkshire and The Humber,0.507,0.123529412,1.4616
+London,0.4485,0.132352941,1.1484
+North East,0.4095,0.079411765,1.4268
+East Midlands,0.2535,0.052941176,0.8004
+South East,0.195,0.052941176,0.5568
+West Midlands,0.1755,0.035294118,0.6264
+East of England,0.1755,0.044117647,0.5568
+South West,0.1365,0.035294118,0.4524
+Wales,0.6825,0.123529412,2.2968
+Scotland,0.195,0.017647059,0.696
