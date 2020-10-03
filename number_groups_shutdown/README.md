@@ -16,9 +16,9 @@ For systems with only one kind of non-overlapping group, we can then plot this e
 
 ![](isolation_probabilities_one_layer.png)
 
-(as produced by the `plot_isolation_probabilities_one_layer()` function in file `vanilla_number_isolating.py`)
+(as produced by the `plot_isolation_probabilities_one_layer()` function in file [`vanilla_number_isolating.py`](vanilla_number_isolating.py))
 
-For example if you were conducting surveillance testing of students and the probability of a person testing positive was 1% per week (note that a recent REACT interim report places the prevalence in young people near 1%), then if students were in 30-person bubbles, you'd expect about about 26% of your bubbles to be required to isolate each week (and so if they were required to isolate for two weeks then about half of your bubbles might be isolating at any given time).
+For example if you were conducting surveillance testing of students and the probability of a person testing positive was 1% per week (note that a recent REACT interim report places the prevalence in young people near 1%: https://www.imperial.ac.uk/media/imperial-college/institute-of-global-health-innovation/REACT1_12345_Interim-(1).pdf), then if students were in 30-person bubbles, you'd expect about about 26% of your bubbles to be required to isolate each week (and so if they were required to isolate for two weeks then about half of your bubbles might be isolating at any given time).
 
 #### Multiple overlapping types of groups
 If we continue with the simplifying assumptions used in the case of a single type of group (e.g. university student households) we can also consider other types of recorded groups (e.g. sports groups or tutorial groups).  In the easiest naive case, we might assume that these groups are completely independent of the first type of groups: that is, that if two people are in the same household that they are no more or less likely to be in the same sports group than two people who are not in the same household.  *I am planning as future work a simple expansion to include correlated groupings that do not require this assumption* 
@@ -27,7 +27,7 @@ In this case, we can calculate the proportion of people isolating due to a posit
 
 As an example, if we have a group of people in which we expect 26% to be required to isolate in a week because of a positive in their household and 10% because of a positive in their tutorial group which **is unrelated to their household**, then we might expect $0.26 + 0.1 - 0.26*0.1 = 0.334$ or 33.4% to be required to isolate in a week.  
 
-I have implemented a notebook with sliders to calculate this figure (overlapping_groups_isolating.ipynb), which you may wish to run at binder link (you will have to wait a minute to load, and then press 'Run' several times.):
+I have implemented a notebook with sliders to calculate this figure ([link to notebook](overlapping_groups_isolating.ipynb)), which you may wish to run at binder link (you will have to wait a minute to load, and then press 'Run' several times.):
 
 ### Assumptions/limitations:
 - this work includes no within-setting (within-school, within-university, etc) spread
