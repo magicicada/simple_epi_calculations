@@ -27,7 +27,7 @@ In this case, we can calculate the proportion of people isolating due to a posit
 
 As an example, if we have a group of people in which we expect 26% to be required to isolate in a week because of a positive in their household and 10% because of a positive in their tutorial group which **is unrelated to their household**, then we might expect $0.26 + 0.1 - 0.26*0.1 = 0.334$ or 33.4% to be required to isolate in a week.  
 
-I have implemented a notebook with sliders to calculate this figure ([link to notebook](overlapping_groups_isolating.ipynb)), which you may wish to run at binder link (you will have to wait a minute to load, and then press 'Run' several times.):
+I have implemented a notebook with sliders to calculate this figure ([link to notebook](overlapping_groups_isolating.ipynb)), which you may wish to run at binder link (you will have to wait a minute to load, and then press 'Run' several times.):  [binder ling here](https://mybinder.org/v2/gh/magicicada/simple_epi_calculations/3c9002e8d0c53e65ab11b803825ebf5633e79121)
 
 ### Assumptions/limitations:
 - this work includes no within-setting (within-school, within-university, etc) spread
