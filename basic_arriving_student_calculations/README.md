@@ -4,6 +4,9 @@ In order for higher education providers to be well-prepared for the imminent ret
 
 I can be contacted via GitHub message, or by email at jessica.enright@glasgow.ac.uk
 
+*October 4th Update: Given the recent REACT Interim report giving higher prevalence estimates for a period ending in late September, I have added a version of this calculation that uses the raw prevalence figures from that [REACT update](https://www.imperial.ac.uk/media/imperial-college/institute-of-global-health-innovation/REACT1_12345_Interim-(1).pdf) - for this update I have used Scottish prevalence estimates from a forecast for the end of September in [issue 19 of the modelling the epidemic in Scotland report](https://www.gov.scot/publications/coronavirus-covid-19-modelling-epidemic-issue-no-19/).  The age-adjusted results based on the REACT-1 interim regional figures (round 5) are in [react_based_estimate_number_incoming_infected_from_regions_age_adjusted_combined.csv](/output_estimate_tables/react_based_estimate_number_incoming_infected_from_regions_age_adjusted_combined.csv)*
+
+
 
 **Data sources:**
 
@@ -36,9 +39,7 @@ I have now completed a similar calculation using the same piece of code (invoked
 5. The antibody prevalences are from a moment in time, and I have not modelled any further accumulation nor any decay of antibodies. 
 6. I have only included students domiciled in English regions, or in Wales or Scotland.
 
-I want to especially repeat one of those: recently, news reports have suggested that prevalence is highest in the UK in young people.  I have used estimates from the general population.
 
 **Next steps:**
 
-- I am planning to expand this work in several ways, including incorporating international students and UK students not from England, Wales, or Scotland, incorporating information at a finer geographic scale or including better prevalence estimates when they become available, etc.  
 - Because students will shortly have returned to universities, this calculation will soon no longer be useful.  I am planning to repurpose this work to calculate the reverse: how much out-going infection from universities to out-of-term addresses we might expect should students leave their university address.  
