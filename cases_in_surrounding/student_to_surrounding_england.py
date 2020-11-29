@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 
-# for week-lagged statistics, not used for student-area England work
+# NOT IN USE FOR ENGLAND for week-lagged statistics, not used for student-area England work
 def get_week_delay_network(
     cases_df,
     source_interest,
@@ -44,7 +44,10 @@ def get_week_delay_network(
     return cases_at_source, cases_at_dest
 
 
+# lazy hard-coding of loading cases and student numbers, saving student ratings for MSOAs
+# Not robust against file formatting changes 
 def loading_and_IZ():
+    
     cases_file = "data/MSOAs_latest.csv"
     student_num_file = "data/student_numbers_msoa.csv"
     msoa_pop_file = "data/msoa_persons_2019.csv"
@@ -91,6 +94,16 @@ def loading_and_IZ():
     return cases_df
 
 
+# The function that does the actual plotting of a time series derived from columns of df (note that the date column ought *not* be the index of the dataframe)
+# mean in solid line, median in dashed
+# 
+# parameter df: the pandas dataframe containing our information to plot
+# optional param color_string: the matplotlib-compliant colour we will plot in
+# optional param category_string: a name or category that will be associated with these lines in the legend
+# optional param date_field: the name of the column with the date information - defaulted to 'date'
+# optional param cases_field: the name of the column with the numeric information (here cases) - defaulted to 'cases_per_pop'
+# optional param ax: the axes on which to plot.  If none are supplied, this function grabs the current active axes from pyplot
+# returns: the axes on which the function has plotted something
 def actual_plot_function_median_and_mean(
     df,
     colour_string="gray",
@@ -130,7 +143,17 @@ def actual_plot_function_median_and_mean(
 
     return ax
 
-
+#  Picks out high-student, low-student, and student-adjacent areas, plots cases over time for each, saves image.  Does not fail gracefully on format changes
+#
+# param count_pos: a pandas dataframe with counts of new cases over time in geogrpahic units.  Assumed to have the columns for corresponding fields listed as parameters.
+# param beside_student_list: a list containing string identifiers for areas *beside* student areas (by whatever definition of beside is useful).  These strings should be the sort in the column given by dz_field
+# optional param dz_field: the column of count_pos that contains area identifiers
+# optional param rating_student_field: the column of count_pos that contains the numeric indicator of how studenty an area is - we expect all entries in the dataframe with the same area identifier to have the same entry in this column
+# optional param date_field: the column of count_pos that contains the date of the number of cases observation - likely expecting datetime entries
+# optional param high_thresh: the threshold above which entries in rating_student_field are judged to be high student concentration
+# optional param low_thresh: the threshold below which entries in  rating_student_field are judged to be lower student concentration
+# optional param string_save: the path and name where the resulting plot should be saved
+# optional param title_string: a string to use as a title for the plot 
 def plot_hi_and_low_and_beside(
     count_pos,
     beside_student_list,
@@ -150,10 +173,6 @@ def plot_hi_and_low_and_beside(
         just_student, colour_string="gray", category_string="High concentration student"
     )
 
-    # just_student = just_student[[date_field, cases_field]]
-    # just_student.columns = [date_field, 'High concentration student']
-    # just_student = just_student.groupby(date_field).mean()
-    # ax = just_student.plot(label = 'High concentration student')
 
     beside_student = count_pos[count_pos[rating_student_field] < high_thresh]
     beside_student = beside_student[beside_student[dz_field].isin(beside_student_list)]
@@ -164,11 +183,6 @@ def plot_hi_and_low_and_beside(
         ax=ax,
     )
 
-    # beside_student  = beside_student [[date_field, cases_field]]
-    # beside_student.columns = [date_field, 'Near (2km centroid) high concentration student']
-    # print(beside_student)
-    # beside_student  = beside_student .groupby(date_field).mean()
-    # beside_student.plot(ax=ax)
 
     low_student = count_pos[count_pos[rating_student_field] < low_thresh]
     actual_plot_function_median_and_mean(
@@ -178,13 +192,6 @@ def plot_hi_and_low_and_beside(
         ax=ax,
     )
 
-    # low_student  = low_student [[date_field, cases_field]]
-    # low_student.columns = [date_field, 'Lower concentration student']
-    # low_student_mean  = low_student .groupby(date_field).mean()
-    # low_student_mean.plot(ax=ax)
-    # low_student_median  = low_student .groupby(date_field).median()
-    # low_student_median.plot(ax=ax)
-    #
     non_beside_student = count_pos[count_pos[rating_student_field] < high_thresh]
     non_beside_student = non_beside_student[
         ~non_beside_student[dz_field].isin(beside_student_list)
@@ -196,12 +203,6 @@ def plot_hi_and_low_and_beside(
         ax=ax,
     )
 
-    # non_beside_student  = non_beside_student [[date_field, cases_field]]
-    # non_beside_student.columns = [date_field, 'NOT near high concentration student']
-    # print(non_beside_student)
-    # non_beside_student  = non_beside_student .groupby(date_field).mean()
-    # non_beside_student.plot(ax=ax, style = '-')
-
     ax.set_xlabel("week of 2020")
     ax.set_ylabel("test-postives/pop by MSOA")
     ax.set_title(title_string)
@@ -209,7 +210,7 @@ def plot_hi_and_low_and_beside(
     plt.savefig(string_save)
 
 
-# Built for use with Scottish data - showing correspondances between week-lagged numbers.  Won't run as-in in the git repo, needs amending for English data.
+# NOT IN USE FOR ENGLAND Built for use with Scottish data - showing correspondances between week-lagged numbers.  Won't run as-in in the git repo, needs amending for English data.
 def network_based_pictures_IZ(
     count_pos,
     dz_field="InterZone",
@@ -256,15 +257,23 @@ def network_based_pictures_IZ(
             "output/msoa_cases_source_vs_cases_dest_low_" + str(week_num) + ".png"
         )
 
-
+# uses a network file (at the moment hard-coded into this function) to generate a list of
+# areas with a centroid within a hard-coded distance threshold (2km) of the centroid of a high-student area
+# note that the file used for the network with distances only includes edges between MSOAs that are centroid-close (I think 5km?  todo-check this)
+# param count_pos: a pandas dataframe with information about the studentyness of different areas, must have columns as in other parameters.  Must use string names comparable to those in the network file
+# optional param dz_field: the column name containing area identifiers
+# optional param rating_student_field: the column of count_pos that contains the numeric indicator of how studenty an area is - we expect all entries in the dataframe with the same area identifier to have the same entry in this column
+# optional param high_thresh: the threshold above which entries in rating_student_field are judged to be high student concentration
+# returns a list of identifiers of areas that we've judged to be 'beside' high-concentration student areas 
 def get_beside_student(
     count_pos,
     dz_field="areaCode",
     rating_student_field="student_prop",
     high_thresh=0.25,
 ):
+    distance_thresh = 2
     border_df = pd.read_csv("data/full_msoa_network_output.csv")
-    border_df = border_df[border_df["distance"] <= 2]
+    border_df = border_df[border_df["distance"] <= distance_thresh]
     just_student = count_pos[count_pos[rating_student_field] > high_thresh]
     student_zones = list(just_student[dz_field])
     border_df = border_df[
@@ -275,7 +284,12 @@ def get_beside_student(
     beside_student.extend(list(border_df["areaCode_y"]))
     return beside_student
 
-
+#  does setup (using loading_and_IZ and hard-coded lookup file) and then plots figures for MSOAs within a provided list of LADs
+# Each call to this function generates one plot - that is, all MSOAs in all lads_of_interest contribute to one mean/median plot.
+#  if you want one per LAD, then call this many times with a singleton list each time.
+# param lads_of_interest: a list of local authority districts (as in the lookup file hard-coded for now) that we want to include MSOAs from
+# optional param save_string: the path and filename to save the resulting figure
+# optional param title_string: a title to use for the plot  
 def do_by_region(
     lads_of_interest, save_string="subset_student_band_cases_msoa.png", title_string=""
 ):
@@ -284,7 +298,6 @@ def do_by_region(
     lookup_lad = "LAD17CD"
     lookup_df = pd.read_csv(lookup_df_file)
     lookup_df = lookup_df[[lookup_msoa, lookup_lad]].drop_duplicates()
-    # print(lookup_df)
 
     counts = loading_and_IZ()
     counts = counts.merge(
@@ -299,7 +312,8 @@ def do_by_region(
         counts, besides, string_save=save_string, title_string=title_string
     )
 
-
+# Extracts the local authorities in various tiers from a (currently hardcoded) file
+# and then plots for each tier grouping 
 def do_by_tier():
     tier_data_file = "data/uk_tier_data_parliament_2020_10_25_1606.csv"
     la_field = "l_l_widerlacode"
@@ -319,6 +333,8 @@ def do_by_tier():
         )
 
 
+# produces plots for particular local authorities requested
+# LAs currently hardcoded in a dictionary mapping identifier to a complonent of the title of the plot 
 def do_requests():
 
     places_of_interest = {
@@ -346,7 +362,7 @@ def do_requests():
         title_string="MSOAs in England",
     )
 
-
+ 
 do_by_tier()
 do_requests()
 #
