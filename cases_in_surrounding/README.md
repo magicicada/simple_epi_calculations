@@ -4,4 +4,9 @@ This work is based entirely on public data in England, and so sample data will a
 
 Current code is workable, but not well documented or engineered - use with caution.  
 
+currently invoked with:
+python student_to_surrounding_england.py
+
+needs pandas, matplotlib, networkx (haven't built an environment file yet)
+
 -Jess
