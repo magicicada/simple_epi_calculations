@@ -30,6 +30,7 @@ def read_flow_table(filename):
 
 def read_pos_table(filename):
     perc_pos_df = pd.read_csv(filename)
+    print(perc_pos_df)
     perc_pos_df.columns = ["Region", "estimate", "lower", "upper"]
     perc_pos_df["estimate"] = perc_pos_df["estimate"].astype(float)
     regions = list(perc_pos_df["Region"])

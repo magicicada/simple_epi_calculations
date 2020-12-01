@@ -38,10 +38,12 @@ def read_MSOA_tests(filename_data, region_field = 'rgn19_nm'):
     
 lookup_file='data/msoa_to_region_lookup.csv'
 msoa_data_file = 'data/MSOAs_latest.csv'
+msoa_data_file = 'data/msoa_2020-11-30.csv'
 # read_MSOA_tests(msoa_data_file)
 df_tests = read_MSOA_tests_new(msoa_data_file, lookup_file)
 
-prevalence_file = 'data/prevalence_est_ons.xlsx'
+# prevalence_file = 'data/prevalence_est_ons_2.xlsx'
+prevalence_file = 'data/prevalence_est_ons_2_no_confidence.xlsx'
 df_prev = pd.read_excel(prevalence_file)
 
 df_prev['Date'] = pd.to_datetime(df_prev['Date'])
@@ -102,7 +104,7 @@ for region in regions:
     print(thisPlot)
     plt.xticks(rotation=45)
     
-    axs[1].set_ylabel('Total Weekly Cases/ONS Modelled Number of Cases')
+    axs[1].set_ylabel('ONS Modelled Number of Cases/Test-Positive Cases')
 
     
 plt.xticks(rotation=45)
