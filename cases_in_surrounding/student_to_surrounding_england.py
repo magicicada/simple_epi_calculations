@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
+from datetime import date
 
 
 # NOT IN USE FOR ENGLAND for week-lagged statistics, not used for student-area England work
@@ -64,7 +65,7 @@ def loading_and_IZ():
 
     cases_df = pd.read_csv(cases_file)
     cases_df[date_cases] = pd.to_datetime(cases_df[date_cases], format="%Y-%m-%d")
-    cases_df[date_cases] = cases_df[date_cases].dt.week
+    # cases_df[date_cases] = cases_df[date_cases].dt.week
     cases_df = cases_df[[region_cases, date_cases, cases_field]].fillna(0)
 
     pop_df = pd.read_csv(msoa_pop_file, thousands=",")
@@ -90,7 +91,7 @@ def loading_and_IZ():
     )
     cases_df["cases_per_pop"] = cases_df[cases_field] / cases_df[pop_pop]
     print(cases_df)
-    cases_df = cases_df[cases_df[date_cases] > 35]
+    # cases_df = cases_df[cases_df[date_cases] > 35]
     return cases_df
 
 
@@ -123,6 +124,9 @@ def actual_plot_function_median_and_mean(
     df.columns = [date_field, category_string]
     df_mean = df.groupby(date_field).mean().reset_index()
     df_median = df.groupby(date_field).median().reset_index()
+    
+    
+    
     ax.plot(
         list(df_mean[date_field]),
         list(df_mean[category_string]),
@@ -140,7 +144,16 @@ def actual_plot_function_median_and_mean(
         alpha=alpha,
         linewidth=line_width,
     )
-
+    
+    combined = df_mean.merge(df_median, how = 'left', left_on = date_field, right_on = date_field)
+    combined.columns = ['week', 'mean', 'median']
+    combined['week'] = combined['week'] -2
+    combined ['date'] =  pd.to_datetime('2020', format='%Y') + \
+             pd.to_timedelta(combined.week.mul(7).astype(str) + ' days')
+    combined = combined[['date', 'mean', 'median']]
+    save_string = category_string.replace(" ", "_")
+    combined.to_csv(save_string + ".csv", index = False)
+    
     return ax
 
 #  Picks out high-student, low-student, and student-adjacent areas, plots cases over time for each, saves image.  Does not fail gracefully on format changes
@@ -165,6 +178,7 @@ def plot_hi_and_low_and_beside(
     string_save="output/student_band_cases_msoa.png",
     title_string="",
 ):
+    
     plt.clf()
     just_student = count_pos[count_pos[rating_student_field] > high_thresh]
     # cases_field = 'newCasesBySpecimenDateRollingSum'
@@ -208,6 +222,82 @@ def plot_hi_and_low_and_beside(
     ax.set_title(title_string)
     plt.legend()
     plt.savefig(string_save)
+
+def generate_just_mean_median(df, date_field = 'date', cases_field = 'cases_per_pop', string = ''):
+    
+    
+    df = df[[date_field, cases_field]]
+    df_mean = df.groupby(date_field).mean().reset_index()
+    df_median = df.groupby(date_field).median().reset_index()
+    df_mean.columns = [date_field, string + "_mean"]
+    df_median.columns = [date_field, string + "_median"]
+
+    combined = df_mean.merge(df_median, how = 'left', left_on = date_field, right_on = date_field).reset_index()
+    return combined
+    
+    
+
+def generate_csv_hi_and_low_and_beside(
+    count_pos,
+    beside_student_list,
+    dz_field="areaCode",
+    rating_student_field="student_prop",
+    date_field="date",
+    high_thresh=0.15,
+    low_thresh=0.05,
+    string_save="output/student_band_cases_msoa.csv",
+    title_string="",
+):
+    
+    all_cases = count_pos
+    cases_string = 'all_cases'
+    all_cases = generate_just_mean_median(all_cases, string = cases_string)
+    
+    just_student = count_pos[count_pos[rating_student_field] > high_thresh]
+    print("\n\n\n\nJUST STUDENT!!! ====== ")
+    print(just_student)
+    cases_field = "cases_per_pop"
+    high_conc_string = 'high_concentration_student'
+    just_student = generate_just_mean_median(just_student, string = high_conc_string)
+
+
+
+    beside_student = count_pos[count_pos[rating_student_field] < high_thresh]
+    beside_student = beside_student[beside_student[dz_field].isin(beside_student_list)]
+    beside_string = 'near_2km_high_conc_student'
+    beside_student = generate_just_mean_median(beside_student, string = beside_string)
+
+
+
+    low_student = count_pos[count_pos[rating_student_field] < low_thresh]
+    low_string = 'lower_concentration_student'
+    low_student = generate_just_mean_median(low_student, string = low_string)
+    
+
+    non_beside_student = count_pos[count_pos[rating_student_field] < high_thresh]
+    non_beside_student = non_beside_student[
+        ~non_beside_student[dz_field].isin(beside_student_list)
+    ]
+    non_beside_string = 'not_near_high_conc_student'
+    non_beside_student = generate_just_mean_median(non_beside_student, string = non_beside_string)
+    
+    combined = just_student.merge(beside_student, how = 'outer', left_on = date_field, right_on = date_field)
+    combined = combined.merge(low_student, how = 'outer', left_on = date_field, right_on = date_field)
+    combined = combined.merge(non_beside_student, how = 'outer', left_on = date_field, right_on = date_field)
+    
+    combined = combined.merge(all_cases, how = 'outer', left_on = date_field, right_on = date_field)
+    
+    names = [high_conc_string, beside_string, low_string, non_beside_string, cases_string]
+    amended_names = [date_field]
+    for name in names:
+        amended_names.append(name + "_mean")
+        amended_names.append(name + "_median")
+    combined = combined[amended_names]    
+    
+    combined.to_csv(string_save, index = False)
+
+
+
 
 
 # NOT IN USE FOR ENGLAND Built for use with Scottish data - showing correspondances between week-lagged numbers.  Won't run as-in in the git repo, needs amending for English data.
@@ -269,7 +359,7 @@ def get_beside_student(
     count_pos,
     dz_field="areaCode",
     rating_student_field="student_prop",
-    high_thresh=0.25,
+    high_thresh=0.15,
 ):
     distance_thresh = 2
     border_df = pd.read_csv("data/full_msoa_network_output.csv")
@@ -308,7 +398,7 @@ def do_by_region(
 
     # counts.to_csv('output/sanity_check_output_' + title_string + '.csv')
     besides = get_beside_student(counts)
-    plot_hi_and_low_and_beside(
+    generate_csv_hi_and_low_and_beside(
         counts, besides, string_save=save_string, title_string=title_string
     )
 
@@ -337,33 +427,46 @@ def do_by_tier():
 # LAs currently hardcoded in a dictionary mapping identifier to a complonent of the title of the plot 
 def do_requests():
 
+    # places_of_interest = {
+    #     "E06000018": "Nottingham",
+    #     "E06000045": "Southampton",
+    #     "E08000003": "Manchester",
+    #     "E08000006": "Salford",
+    #     "E07000178": "Oxford",
+    #     "E07000008": "Cambridge",
+    #     "E07000041": "Exeter",
+    #     "E06000023": "Bristol",
+    #     "E08000012": "Liverpool",
+    #     "E08000025": "Birmingham",
+    #     "E06000014": "York",
+    #     "E06000022": "Bath and NE Somerset",
+    # }
     places_of_interest = {
-        "E06000018": "Nottingham",
-        "E06000045": "Southampton",
-        "E08000003": "Manchester",
-        "E08000006": "Salford",
-        "E07000178": "Oxford",
-        "E07000008": "Cambridge",
-        "E07000041": "Exeter",
-        "E06000023": "Bristol",
-        "E08000012": "Liverpool",
-        "E08000025": "Birmingham",
-        "E06000014": "York",
-        "E06000022": "Bath and NE Somerset",
+        "E06000045": "Southampton"
+        # "E08000003": "Manchester",
+        # "E08000006": "Salford",
+        # "E07000008": "Cambridge",
+        # "E07000041": "Exeter",
+        # "E06000023": "Bristol",
+        # "E06000022": "Bath and NE Somerset",
+        # "E09000033": "Westminster (King's College London)",
+        # "E06000010": "Kingston upon Hull, City of",
+        # "E08000031": "Wolverhampton",
+        # "E09000019": 'Islington'
     }
-
     for code in places_of_interest:
-        save_string = "output/just_" + str(code) + "_student_band_cases_msoa.png"
+
+        save_string = "output/for_rebecca_" + str(code) + "_student_band_cases_msoa.csv"
         title_string = "MSOAs in LA " + str(places_of_interest[code])
         do_by_region([code], save_string=save_string, title_string=title_string)
-    do_by_region(
-        [],
-        save_string="output/all_england_student_band_cases_msoa.png",
-        title_string="MSOAs in England",
-    )
+    # do_by_region(
+    #     [],
+    #     save_string="output/all_england_student_band_cases_msoa.png",
+    #     title_string="MSOAs in England",
+    # )
 
  
-do_by_tier()
+# do_by_tier()
 do_requests()
 #
 # counts = loading_and_IZ()
